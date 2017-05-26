@@ -1,7 +1,7 @@
-// YOUR CODE HERE:
-class App{
+
+class App {
   constructor() {
-    this.title = "some title";
+    this.title = 'some title';
   }
   init() {
     //starts something here
@@ -23,7 +23,7 @@ class App{
       }
     });
   }
-  fetch(){
+  fetch() {
     $.ajax({
       // This is the url you should use to communicate with the parse API server.
       url: 'http://parse.CAMPUS.hackreactor.com/chatterbox/classes/messages',
@@ -40,5 +40,30 @@ class App{
       }
     });
   }
-};
+}
 var app = new App();
+
+// - COMPLETE 'FETCH' METHOD...
+// - BUILD OUT HTML ELEMENTS AND HOW TO POPULATE THEM WITH THE DATA
+// - UNDERSTAND HOW THOSE ELEMENTS ARE TO BE REPEATED
+
+// -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
