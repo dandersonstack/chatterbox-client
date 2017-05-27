@@ -43,7 +43,6 @@ class App {
           let messageData = {'username': Sanitize(data.results[i].username), 'roomname': Sanitize(data.results[i].roomname),
             'text': Sanitize(data.results[i].text)
           };
-          debugger;
           if (messageData.username || messageData.roomname || messageData.text) {
             app.messageObjects.push(messageData);
           }
