@@ -1,15 +1,17 @@
 body {
-    background: #eee;
+    background: #000000;
     text-align: center;
     padding: 0 25px;
-    font-family: arial, sans-serif;
+    font-family: andale mono;
 }
 
 #main, #chats {
+
     width: 500px;
     margin: auto;
     text-align: left;
-    background: white;
+    background: #000000;
+    color: #FF9944;
     padding: 50px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
@@ -59,18 +61,18 @@ form input[type=text] {
     padding: 5px;
 }
 
-.chat {
+.messageText {
     padding: 5px;
     margin-bottom: 5px;
-    background-color: #eee;
+    background-color: #222222;
 }
 
-.chat .username {
+.messageText .messageUser {
     font-weight: 800;
 }
 
-.chat:hover {
-    background-color: #ddd;
+.messageText:hover {
+    background-color: #444444;
 }
 
 .spinner {
@@ -87,4 +89,5 @@ form input[type=text] {
     color: #fff;
     background-color: #0090da;
 }
+
 
