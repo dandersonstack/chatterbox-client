@@ -58,14 +58,22 @@ class App {
     $(document.getElementById('chats')).empty();
   }
 
-  renderRoom(room) {
+  renderRoom(room, whichClass) {
+//    let $roomTemplate = $(`<option class="roomOption" class=${whichClass} value="${room}">${room}</option>`);
     let $roomTemplate = $(`<option class="roomOption" value="${room}">${room}</option>`);
     document.getElementById('roomSelect').appendChild($roomTemplate[0]);
   }
 
   renderAllRooms() {
-    for (let item of this.existingRooms) {
-      this.renderRoom(item);
+    $(document.getElementById('roomSelect')).empty();
+    var sortedRoomsList = Array.from(this.existingRooms).sort();
+    for (var i = 0; i < sortedRoomsList.length; i++) {
+    // // IF _FILTER MESSAGES(ROOMNAME) !=== LENGTH ZERO
+    //   if(_.filter(messageObject, ()=>{if(???? .roomname === item)}
+    //   this.renderRoom(item, 'notEmpty');
+    // // IF _FILTER MESSAGES(ROOMNAME) === LENGTH ZERO
+    //   this.renderRoom(item, 'empty');
+      this.renderRoom(sortedRoomsList[i]);
     }
   }
 
@@ -84,10 +92,9 @@ class App {
     let roomIndex = roomDropDown.selectedIndex;
     return roomDropDown.children[roomIndex].value;
   }
-  
+
   renderAllMessages() {
     this.clearMessages();
-    debugger;
     let currRoom = this.getCurrentRoom();
     for (let i = 0; i < this.messageObjects.length; i++) {
       if (this.messageObjects[i].roomname === currRoom) {
