@@ -2,11 +2,15 @@
 class App {
   constructor() {
     this.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages';
-
+    this.messageObjects = [];
+    // this.messagesByUserName = {};
+    this.init();
   }
   init() {
     //starts something here
+    this.fetch();
   }
+
 
   send(message) {
     $.ajax({
@@ -31,9 +35,20 @@ class App {
       // This is the url you should use to communicate with the parse API server.
       url: this.server,
       type: 'GET',
-      data: JSON.stringify(message),
+      data: {},
       contentType: 'application/json',
       success: function (data) {
+        for (let i in data.results) {
+          //grab the elements I want and santatize them
+          let messageData = {'username': Sanitize(data.results[i].username), 'roomname': Sanitize(data.results[i].roomname),
+            'text': Sanitize(data.results[i].text)
+          };
+          debugger;
+          if (messageData.username || messageData.roomname || messageData.text) {
+            app.messageObjects.push(messageData);
+          }
+          app.renderAllMessages();
+        }
         //Supply the data request back
         console.log('chatterbox: Message sent');
       },
@@ -60,7 +75,7 @@ class App {
 
   renderMessage(message) {
 // TO DO: USE THE 'escape.js' SCRIPT BEFOREHAND
-    let $messageElement = $(
+    const $messageElement = $(
       `<div class="message">
          <h3 class="messageUser"> ${message.username} </h3>
          <p class="messageText"> ${message.text} </p>
@@ -69,21 +84,13 @@ class App {
     document.getElementById('chats').appendChild($messageElement[0]);
   }
 
-  _renderMessages(AllTheMessages) {
-  // INIT VARIABLE TO REFER TO DESIRED DOM NODE
-  // INIT MESSAGE ELEMENT TEMPLATE
-    // ITERATE OVER MESSAGE ARRAY (WHICH WE RECEIVED FROM THE SERVER)
-      // APPEND EACH ELEMENT TO CORRECT DOM NODE (WRAPPED IN THE MESSAGE ELEMENT TEMPLATE)
+  renderAllMessages() {
+    for (let i in this.messageObjects) {
+      this.renderMessage(this.messageObjects[i]);
+    }
   }
-
 }
 
 
 
 var app = new App();
-
-// - COMPLETE 'FETCH' METHOD...
-// - BUILD OUT HTML ELEMENTS AND HOW TO POPULATE THEM WITH THE DATA
-// - UNDERSTAND HOW THOSE ELEMENTS ARE TO BE REPEATED
-
-// -

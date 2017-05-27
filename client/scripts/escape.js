@@ -1,13 +1,11 @@
-window.clean = function(str) {
+let Sanitize = function(str) {
 
-  var disinfectedString = '';
-  
+  str = _.map( str, char => (char === '&' ) ? '&#38;'  : char ).join('');
   str = _.map( str, char => (char === ' ' ) ? '&#32;'  : char ).join('');
   str = _.map( str, char => (char === '!' ) ? '&#33;'  : char ).join('');
   str = _.map( str, char => (char === '\"') ? '&#34;'  : char ).join('');
   str = _.map( str, char => (char === '$' ) ? '&#36;'  : char ).join('');
   str = _.map( str, char => (char === '%' ) ? '&#37;'  : char ).join('');
-  str = _.map( str, char => (char === '&' ) ? '&#38;'  : char ).join('');
   str = _.map( str, char => (char === '\'') ? '&#39;'  : char ).join('');
   str = _.map( str, char => (char === '(' ) ? '&#40;'  : char ).join('');
   str = _.map( str, char => (char === ')' ) ? '&#41;'  : char ).join('');
@@ -27,5 +25,5 @@ window.clean = function(str) {
 
 //  str = _.map( str, char => (char === ' THE ESCAPE KEY  ') ? '&#;' : char ).join('');
 
-  return disinfectedString;
+  return str;
 };
