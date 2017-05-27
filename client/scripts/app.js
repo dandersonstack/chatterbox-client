@@ -30,10 +30,10 @@ class App {
     $.ajax({
       url: this.server,
       type: 'GET',
-      data: {order:'-createdAt', limit: 500},
+      data: {order:'-createdAt', limit: 800},
       contentType: 'application/json',
       success: function (data) {
-        app.clearMessages();
+        app.messageObjects = [];
         for (let i = 0; i < data.results.length; i++) {
           let messageData = {'username': Sanitize(data.results[i].username), 'roomname': Sanitize(data.results[i].roomname),
             'text': Sanitize(data.results[i].text)
@@ -41,14 +41,12 @@ class App {
           if (messageData.roomname) {
             app.existingRooms.add(messageData.roomname.toLowerCase());
           }
-          if (i < 100) {
-            if (messageData.username || messageData.roomname || messageData.text) {
-              app.messageObjects.push(messageData);
-            }
+          if (messageData.username || messageData.roomname || messageData.text) {
+            app.messageObjects.push(messageData);
           }
         }
-        app.renderAllMessages();
         app.renderAllRooms();
+        app.renderAllMessages();
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -57,17 +55,21 @@ class App {
     });
   }
   clearMessages() {
-    this.messageObjects = [];
     $(document.getElementById('chats')).empty();
   }
 
   renderRoom(room) {
-    let $roomTemplate = $(`<option value="${room}">${room}</option>`);
+    let $roomTemplate = $(`<option class="roomOption" value="${room}">${room}</option>`);
     document.getElementById('roomSelect').appendChild($roomTemplate[0]);
   }
 
+  renderAllRooms() {
+    for (let item of this.existingRooms) {
+      this.renderRoom(item);
+    }
+  }
+
   renderMessage(message) {
-// TO DO: USE THE 'escape.js' SCRIPT BEFOREHAND
     const $messageElement = $(
       `<div class="message">
          <h3 class="messageUser"> ${message.username} </h3>
@@ -77,17 +79,24 @@ class App {
     document.getElementById('chats').appendChild($messageElement[0]);
   }
 
+  getCurrentRoom() {
+    let roomDropDown = document.getElementById('roomSelect');
+    let roomIndex = roomDropDown.selectedIndex;
+    return roomDropDown.children[roomIndex].value;
+  }
+  
   renderAllMessages() {
-    for (let i in this.messageObjects) {
-      this.renderMessage(this.messageObjects[i]);
+    this.clearMessages();
+    debugger;
+    let currRoom = this.getCurrentRoom();
+    for (let i = 0; i < this.messageObjects.length; i++) {
+      if (this.messageObjects[i].roomname === currRoom) {
+        this.renderMessage(this.messageObjects[i]);
+      }
     }
+  
   }
-  renderAllRooms() {
-    for (let item of this.existingRooms) {
-      console.log(item);
-      //this.renderMessage(this.messageObjects[i]);
-    }
-  }
+
 }
 
 

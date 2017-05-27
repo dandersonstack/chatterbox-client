@@ -92,5 +92,8 @@ form input[type=text] {
 #messageInput {
     width: 60%;
 }
+#roomSelect {
+    width: 150px;
+}
 
 
