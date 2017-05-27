@@ -25,20 +25,19 @@
     <script src="env/config.js"></script>
     <script src="scripts/escape.js"></script>
     <script src="scripts/app.js"></script>
-
   </head>
   <body>
-
     <div id="main">
       <h1>CHATTER BOX</h1>
       <!-- Your HTML goes here! -->
-
       <select id='roomSelect'>Rooms</select>
-      <h2>WE WILL put our messages here!</h2>
+      <button id="refresh">Refresh Messages</button>
+      <h2>Welcome to the best messaging APp in the business</h2>
+      <input id="messageInput" type="text" placeholder="Something simple"></input>
+      <button id="send">Send Message</button>
     </div>
-
+    
     <div id="chats"></div>
-
-
+  <script src="scripts/AppEvents.js"></script>
   </body>
 </html>

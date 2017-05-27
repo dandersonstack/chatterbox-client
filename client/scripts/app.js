@@ -3,53 +3,48 @@ class App {
   constructor() {
     this.server = 'http://parse.sfm8.hackreactor.com/chatterbox/classes/messages';
     this.messageObjects = [];
-    // this.messagesByUserName = {};
     this.init();
   }
   init() {
-    //starts something here
     this.fetch();
   }
 
 
   send(message) {
     $.ajax({
-      // This is the url you should use to communicate with the parse API server.
       url: this.server,
       type: 'POST',
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
-        //handle escaping out the message to prevent from xss it should happen here
         console.log('chatterbox: Message sent');
       },
       error: function (data) {
-        // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
-        console.error('chatterbox: Failed to send message', data);
+        console.error('chatterbox: Failed to send message!', data);
       }
     });
   }
 
   fetch() {
     $.ajax({
-      // This is the url you should use to communicate with the parse API server.
       url: this.server,
       type: 'GET',
-      data: {},
+      data: 'order=-createdAt',
       contentType: 'application/json',
       success: function (data) {
-        for (let i in data.results) {
-          //grab the elements I want and santatize them
+        debugger;
+        app.clearMessages();
+        for (let i = 0; i < 100; i++) {
           let messageData = {'username': Sanitize(data.results[i].username), 'roomname': Sanitize(data.results[i].roomname),
             'text': Sanitize(data.results[i].text)
           };
           if (messageData.username || messageData.roomname || messageData.text) {
             app.messageObjects.push(messageData);
           }
-          app.renderAllMessages();
         }
-        //Supply the data request back
-        console.log('chatterbox: Message sent');
+        console.log("mesage objects", app.messageObjects);
+        app.renderAllMessages();
+
       },
       error: function (data) {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -58,18 +53,13 @@ class App {
     });
   }
   clearMessages() {
-    let $messages = $(`<div id='chats'></div>`);
-    var node = document.getElementById('chats');
-    node.parentElement.removeChild(document.getElementById('chats'));
-    document.body.appendChild($messages[0]);
+    this.messageObjects = [];
+    $(document.getElementById('chats')).empty();
   }
 
   renderRoom(room) {
     let $roomTemplate = $(`<option value="${room}">${room}</option>`);
     document.getElementById('roomSelect').appendChild($roomTemplate[0]);
-  }
-
-  makeMessageInstance(userName, messageText) { // TO DO:
   }
 
   renderMessage(message) {
